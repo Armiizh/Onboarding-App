@@ -1,16 +1,12 @@
-package com.example.pos
+package com.example.pos.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.pos.domain.MainViewModel
+import com.example.pos.presentation.navigation.NavHostPOS
 import com.example.pos.ui.theme.PosTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +15,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PosTheme {
-
+                val navController = rememberNavController()
+                val viewModel = MainViewModel(application)
+                NavHostPOS(viewModel, navController)
             }
         }
     }

@@ -68,4 +68,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation ("androidx.compose.material3:material3-window-size-class:1.2.1")
+    implementation(libs.androidx.navigation.compose)
 }
