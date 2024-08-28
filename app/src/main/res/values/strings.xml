@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">pos</string>
+    <string name="Welcome">Добро пожаловать!</string>
+    <string name="Continue">Продолжить</string>
+    <string name="subtitle1">Введите имя, номер телефона или адрес электронной почты для регистрации</string>
+    <string name="PhoneOrEmail">Телефон или почта</string>
+    <string name="YourName">Ваше имя</string>
 </resources>
