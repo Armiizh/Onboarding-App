@@ -1,6 +1,5 @@
 package com.example.pos.presentation.screens
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,7 +35,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -59,8 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.pos.R
-import com.example.pos.data.model.Pos
-import com.example.pos.di.module.DatabaseModule
 import com.example.pos.domain.MainViewModel
 import com.example.pos.presentation.navigation.NavRoute
 import com.example.pos.ui.theme.dimens
@@ -75,7 +70,7 @@ fun TheFirst(viewModel: MainViewModel, navController: NavHostController) {
     val cityAndCountry by remember { mutableStateOf(mutableStateOf("")) }
     val address by remember { mutableStateOf(mutableStateOf("")) }
     var isNewPlace by remember { mutableStateOf(false) }
-    val automationSystem by remember { mutableStateOf(mutableStateOf("")) }
+    val automationSystem by remember { mutableStateOf(mutableStateOf(null as String)) }
 
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()

@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,12 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.pos.R
-import com.example.pos.data.dao.DaoPos
 import com.example.pos.data.model.Pos
 import com.example.pos.domain.MainViewModel
 import com.example.pos.presentation.navigation.NavRoute
 import com.example.pos.ui.theme.dimens
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -210,17 +207,26 @@ fun Register(viewModel: MainViewModel, navController: NavHostController) {
 
 @Composable
 fun Texts(title: String, subtitle: String) {
-    Text(
-        modifier = Modifier.padding(top = MaterialTheme.dimens.small2),
-        text = title,
-        fontSize = 24.sp
-    )
-    Text(
-        modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
-        text = subtitle,
-        fontSize = 16.sp,
-        color = Color.Gray
-    )
+    if (subtitle != "") {
+        Text(
+            modifier = Modifier.padding(top = MaterialTheme.dimens.small2),
+            text = title,
+            fontSize = 24.sp
+        )
+        Text(
+            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
+            text = subtitle,
+            fontSize = 16.sp,
+            color = Color.Gray
+        )
+    } else  {
+        Text(
+            modifier = Modifier.padding(top = MaterialTheme.dimens.small2, bottom = 24.dp),
+            text = title,
+            fontSize = 24.sp
+        )
+    }
+
 }
 
 @Composable

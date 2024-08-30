@@ -25,13 +25,13 @@ data class Pos(
     @ColumnInfo
     var typeOfBusiness: String ?= null,
     @ColumnInfo
-    var totalArea: String ?= null,
+    var totalArea: Float ?= null,
     @ColumnInfo
-    var seatingCapacity: String ?= null,
+    var seatingCapacity: Int ?= null,
     @ColumnInfo
-    var diningArea: String ?= null,
+    var diningArea: Float ?= null,
     @ColumnInfo
-    var kitchenArea: String ?= null,
+    var kitchenArea: Float ?= null,
     @ColumnInfo
     var typeOfService: String ?= null
 )

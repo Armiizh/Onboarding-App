@@ -209,7 +209,7 @@ fun Type(viewModel: MainViewModel, navController: NavHostController) {
                                         color = Color.Gray
                                     )
                                     .size(40.dp),
-                                onClick = { navController.navigate(NavRoute.Register.route) },
+                                onClick = { navController.navigate(NavRoute.TheFirst.route) },
                                 colors = IconButtonDefaults.iconButtonColors(
                                     containerColor = Color.Transparent,
                                     contentColor = Color.DarkGray,
