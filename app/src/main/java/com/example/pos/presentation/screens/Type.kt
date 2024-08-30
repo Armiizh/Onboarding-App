@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -42,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,7 +60,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Type(viewModel: MainViewModel, navController: NavHostController) {
+fun Type(viewModel: MainViewModel, navController: NavHostController, isTablet: Boolean) {
 
     var typeOfBusiness by remember { mutableStateOf("") }
     val restaurant by remember { mutableStateOf(mutableStateOf(false)) }
@@ -68,6 +71,10 @@ fun Type(viewModel: MainViewModel, navController: NavHostController) {
     val cooking by remember { mutableStateOf(mutableStateOf(false)) }
     val other by remember { mutableStateOf(mutableStateOf(false)) }
     val scope = rememberCoroutineScope()
+    var shapeForBtn: Shape = CircleShape
+    if (isTablet) {
+        shapeForBtn = RoundedCornerShape(50.dp)
+    }
 
     Scaffold(
         containerColor = Color.White,
@@ -201,24 +208,48 @@ fun Type(viewModel: MainViewModel, navController: NavHostController) {
                                 .padding(horizontal = MaterialTheme.dimens.medium2),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = CircleShape,
-                                        color = Color.Gray
+                            if (isTablet) {
+                                Button(
+                                    modifier = Modifier
+                                        .height(39.dp)
+                                        .wrapContentWidth()
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        ),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
                                     )
-                                    .size(40.dp),
-                                onClick = { navController.navigate(NavRoute.TheFirst.route) },
-                                colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = Color.Transparent,
-                                    contentColor = Color.DarkGray,
-                                )
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                                    contentDescription = null
-                                )
+                                ) {
+                                    Text(
+                                        text = "Назад",
+                                        color = Color.Blue,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        )
+                                        .size(39.dp),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
+                                    )
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                                        contentDescription = null
+                                    )
+                                }
                             }
                             Button(
                                 modifier = Modifier
@@ -248,7 +279,8 @@ fun Type(viewModel: MainViewModel, navController: NavHostController) {
                                 ),
                                 enabled = (restaurant.value || bar.value || cafe.value || cafeteria.value || coffeeHouse.value || cooking.value || other.value)
                             ) {
-                                Text(text = stringResource(R.string.Continue))
+                                Text(text = stringResource(R.string.Continue),
+                                    fontSize = 14.sp)
                             }
                         }
                     }

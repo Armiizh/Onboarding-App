@@ -53,7 +53,7 @@ import com.example.pos.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Register(viewModel: MainViewModel, navController: NavHostController) {
+fun Register(viewModel: MainViewModel, navController: NavHostController, isTablet: Boolean) {
 
     var name by remember { mutableStateOf("") }
     var phoneOrEmail by remember { mutableStateOf("") }

@@ -13,45 +13,47 @@ import com.example.pos.presentation.screens.Type
 import com.example.pos.presentation.screens.TypeOfService
 
 @Composable
-fun NavHostPOS(viewModel: MainViewModel, navController: NavHostController) {
+fun NavHostPOS(viewModel: MainViewModel, navController: NavHostController, isTablet: Boolean) {
 
     NavHost(navController = navController, startDestination = NavRoute.Register.route) {
 
         composable(NavRoute.Register.route) {
             Register(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                isTablet = isTablet
             )
         }
         composable(NavRoute.TheFirst.route) {
             TheFirst(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                isTablet = isTablet
             )
         }
         composable(NavRoute.Type.route) {
             Type(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                isTablet = isTablet
             )
         }
         composable(NavRoute.Size.route) {
             Size(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                isTablet = isTablet
             )
         }
         composable(NavRoute.TypeOfService.route) {
             TypeOfService(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                isTablet = isTablet
             )
         }
         composable(NavRoute.Thank.route) {
-            Thank(
-                navController = navController,
-                viewModel = viewModel
-            )
+            Thank()
         }
     }
 }

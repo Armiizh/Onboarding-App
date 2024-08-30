@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomAppBar
@@ -44,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -62,15 +65,19 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Size(viewModel: MainViewModel, navController: NavHostController) {
+fun Size(viewModel: MainViewModel, navController: NavHostController, isTablet: Boolean) {
 
 
-    val totalArea by remember { mutableStateOf(mutableStateOf(""))}
+    val totalArea by remember { mutableStateOf(mutableStateOf("")) }
     val seatingCapacity by remember { mutableStateOf(mutableStateOf("")) }
     val diningArea by remember { mutableStateOf(mutableStateOf("")) }
     val kitchenArea by remember { mutableStateOf(mutableStateOf("")) }
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
+    var shapeForBtn: Shape = CircleShape
+    if (isTablet) {
+        shapeForBtn = RoundedCornerShape(50.dp)
+    }
 
     Scaffold(
         containerColor = Color.White,
@@ -179,24 +186,48 @@ fun Size(viewModel: MainViewModel, navController: NavHostController) {
                                 .padding(horizontal = MaterialTheme.dimens.medium2),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = CircleShape,
-                                        color = Color.Gray
+                            if (isTablet) {
+                                Button(
+                                    modifier = Modifier
+                                        .height(39.dp)
+                                        .wrapContentWidth()
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        ),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
                                     )
-                                    .size(40.dp),
-                                onClick = { navController.navigate(NavRoute.Type.route) },
-                                colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = Color.Transparent,
-                                    contentColor = Color.DarkGray,
-                                )
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                                    contentDescription = null
-                                )
+                                ) {
+                                    Text(
+                                        text = "Назад",
+                                        color = Color.Blue,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        )
+                                        .size(39.dp),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
+                                    )
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                                        contentDescription = null
+                                    )
+                                }
                             }
                             Button(
                                 modifier = Modifier
@@ -220,7 +251,10 @@ fun Size(viewModel: MainViewModel, navController: NavHostController) {
                                 ),
                                 enabled = (totalArea.value.isNotEmpty() && seatingCapacity.value.isNotEmpty() && diningArea.value.isNotEmpty() && kitchenArea.value.isNotEmpty())
                             ) {
-                                Text(text = stringResource(R.string.Continue))
+                                Text(
+                                    text = stringResource(R.string.Continue),
+                                    fontSize = 14.sp
+                                )
                             }
                         }
                     }
@@ -237,7 +271,9 @@ fun TextFieldArea(
     focusManager: FocusManager
 ) {
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 24.dp),
         value = value.value,
         onValueChange = {
             value.value = it.filter { char -> char.isDigit() || char == '.' }
@@ -266,7 +302,9 @@ fun TextFieldSeatingCapacity(
     focusManager: FocusManager
 ) {
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 24.dp),
         value = value.value,
         onValueChange = {
             value.value = it.filter { char -> char.isDigit() }
@@ -317,7 +355,7 @@ private fun ProgressBar() {
             modifier = Modifier
                 .height(4.dp)
                 .weight(1f)
-                .background(Color.Gray)
+                .background(Color.Blue)
         )
         Box(
             modifier = Modifier

@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomAppBar
@@ -46,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -64,17 +67,20 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TheFirst(viewModel: MainViewModel, navController: NavHostController) {
+fun TheFirst(viewModel: MainViewModel, navController: NavHostController, isTablet: Boolean) {
 
     val placeName by remember { mutableStateOf(mutableStateOf("")) }
     val cityAndCountry by remember { mutableStateOf(mutableStateOf("")) }
     val address by remember { mutableStateOf(mutableStateOf("")) }
     var isNewPlace by remember { mutableStateOf(false) }
-    val automationSystem by remember { mutableStateOf(mutableStateOf(null as String)) }
+    val automationSystem by remember { mutableStateOf(mutableStateOf("")) }
 
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
-
+    var shapeForBtn: Shape = CircleShape
+    if (isTablet) {
+        shapeForBtn = RoundedCornerShape(50.dp)
+    }
     Scaffold(
         containerColor = Color.White,
         topBar = {
@@ -224,39 +230,67 @@ fun TheFirst(viewModel: MainViewModel, navController: NavHostController) {
                         HorizontalDivider(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 0.dp)
-                                .padding(bottom = 16.dp),
+                                .padding(horizontal = 0.dp),
                             thickness = 1.dp,
                             color = Color.LightGray
                         )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = MaterialTheme.dimens.medium2),
+                                .padding(
+                                    horizontal = MaterialTheme.dimens.medium2,
+                                    vertical = 16.dp
+                                ),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = CircleShape,
-                                        color = Color.Gray
+                            if (isTablet) {
+                                Button(
+                                    modifier = Modifier
+                                        .height(39.dp)
+                                        .wrapContentWidth()
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        ),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
                                     )
-                                    .size(40.dp),
-                                onClick = { navController.navigate(NavRoute.Register.route) },
-                                colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = Color.Transparent,
-                                    contentColor = Color.DarkGray,
-                                )
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                                    contentDescription = null
-                                )
+                                ) {
+                                    Text(
+                                        text = "Назад",
+                                        color = Color.Blue,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = shapeForBtn,
+                                            color = Color.Gray
+                                        )
+                                        .size(39.dp),
+                                    onClick = { navController.navigate(NavRoute.Register.route) },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = Color.Transparent,
+                                        contentColor = Color.DarkGray,
+                                    )
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                                        contentDescription = null
+                                    )
+                                }
                             }
+
                             Button(
                                 modifier = Modifier
                                     .padding(start = 8.dp)
+                                    .height(40.dp)
                                     .weight(1f),
                                 onClick = {
                                     scope.launch {
@@ -279,7 +313,10 @@ fun TheFirst(viewModel: MainViewModel, navController: NavHostController) {
                                         cityAndCountry.value.isNotEmpty() &&
                                         address.value.isNotEmpty() && (isNewPlace || automationSystem.value.isNotEmpty()))
                             ) {
-                                Text(text = stringResource(R.string.Continue))
+                                Text(
+                                    text = stringResource(R.string.Continue),
+                                    fontSize = 14.sp
+                                )
                             }
                         }
                     }
